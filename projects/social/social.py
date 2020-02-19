@@ -81,6 +81,40 @@ class SocialGraph:
         # total_friendships = avg_friendships * num_users
         # N = avg_friendships * num_users // 2
 
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        # Create an empty queue
+        q = Queue()
+        # Add A PATH TO the starting vertex_id to the queue
+        q.enqueue([starting_vertex])
+        # Create an empty set to store visited nodes
+        visited = set()
+        # While the queue is not empty...
+        while q.size() > 0:
+            # Dequeue, the first PATH
+            p = q.dequeue()
+            # GRAB THE LAST VERTEX FROM THE PATH
+            last_vertex = p[-1]
+            # CHECK IF IT'S THE TARGET
+            if last_vertex == destination_vertex:
+                return p
+                # IF SO, RETURN THE PATH    
+            # Check if it's been visited
+            if last_vertex not in visited:
+            # If it has not been visited...
+                # Mark it as visited
+                visited.add(last_vertex)
+                # Then add A PATH TO all neighbors to the back of the queue
+                    # (Make a copy of the path before adding)
+                for neighbor in self.get_neighbors(last_vertex):
+                    copy = p.copy()
+                    copy.append(neighbor)
+                    q.enqueue(copy)     
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -109,7 +143,8 @@ class SocialGraph:
             if v not in visited:
                 # Mark it as visited
                 print(v)
-                visited[v] = []
+                path = self.bfs(user_id, v)
+                visited[v] = path
                 # Then push all neighbors to the top of the stack
                 for neighbor in self.get_neighbors(v):
                     s.push(neighbor)
