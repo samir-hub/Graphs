@@ -1,4 +1,5 @@
 import random
+from util import Stack, Queue  # These may come in handy
 
 class User:
     def __init__(self, name):
@@ -31,6 +32,12 @@ class SocialGraph:
         self.last_id += 1  # automatically increment the ID to assign the new user
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
+
+    def get_neighbors(self, user_id):
+        """
+        Get all neighbors (edges) of a vertex.
+        """
+        return self.friendships[user_id]    
 
     def populate_graph(self, num_users, avg_friendships):
         """
@@ -84,15 +91,36 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # visited = {}  # Note that this is a dictionary, not a set
+        # # !!!! IMPLEMENT ME
+        # return visited
+        # Create an empty stack
+        s = Stack()
+        # Push the starting vertex_id to the stack
+        s.push(user_id)
+        # Create an empty set to store visited nodes
+        visited = {}
+        # While the stack is not empty...
+        while s.size() > 0:
+            # Pop the first vertex
+            v = s.pop()
+            # Check if it's been visited
+            # If it has not been visited...
+            if v not in visited:
+                # Mark it as visited
+                print(v)
+                visited[v] = []
+                # Then push all neighbors to the top of the stack
+                for neighbor in self.get_neighbors(v):
+                    s.push(neighbor)
         return visited
-
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
     print(sg.users)
     print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    print(sg.get_neighbors(6))
+    print(sg.get_neighbors(4))
+    connections = sg.get_all_social_paths(1)
+    print(connections)
