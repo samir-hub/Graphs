@@ -69,9 +69,9 @@ class SocialGraph:
 
         # Shuffle the list
         random.shuffle(possible_friendships)
-        print("----")
-        print(possible_friendships)
-        print("----")
+        # print("----")
+        # print(possible_friendships)
+        # print("----")
         # Grab the first N pairs from the list and create those friendships
         for i in range(num_users * avg_friendships // 2):
             friendship = possible_friendships[i]
@@ -142,7 +142,7 @@ class SocialGraph:
             # If it has not been visited...
             if v not in visited:
                 # Mark it as visited
-                print(v)
+                #print(v)
                 path = self.bfs(user_id, v)
                 visited[v] = path
                 # Then push all neighbors to the top of the stack
@@ -158,4 +158,4 @@ if __name__ == '__main__':
     print(sg.get_neighbors(6))
     print(sg.get_neighbors(4))
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print((connections))
